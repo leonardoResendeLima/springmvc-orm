@@ -3,9 +3,7 @@ package user.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import user.entity.User;
 import user.services.UserService;
 
@@ -41,5 +39,16 @@ public class UserController {
         List<User> users = userService.getUsers();
         model.addAttribute("users", users);
         return "displayUsers";
+    }
+
+    @RequestMapping("validateEmail")
+    public @ResponseBody
+    String validateEmail(@RequestParam int id) {
+        User user = userService.findUser(id);
+        String msg = "";
+
+        if (user != null)
+            return id + " is already exists";
+        return msg;
     }
 }
